@@ -1,0 +1,20 @@
+databases:
+  - name: open_ar_code
+    databaseName: open_ar_code
+    user: open_ar_code
+    plan: free
+
+services:
+  - type: web
+    name: open_ar_code
+    env: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: open_ar_code
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
